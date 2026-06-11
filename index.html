@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartWaste System — Smart Waste Collection for Smarter Cities</title>
+  <meta name="description" content="A next-generation smart waste collection system using IoT sensors, AI route optimization, and real-time vehicle tracking for cleaner, greener cities." />
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/home.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════════════ -->
+<nav class="navbar navbar-expand-lg" id="mainNav" aria-label="Main navigation">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <div class="brand-icon">♻️</div>
+      Smart<span>Waste</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarMain" aria-controls="navbarMain"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link active" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-info-circle me-1"></i>About</a></li>
+        <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="systemDropdown" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-grid me-1"></i>System
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark border-eco" aria-labelledby="systemDropdown"
+              style="background:var(--bg-card);min-width:200px;">
+            <li><a class="dropdown-item text-eco" href="smart-bins.html"><i class="bi bi-trash3 me-2 text-accent"></i>Smart Bins</a></li>
+            <li><a class="dropdown-item text-eco" href="route-optimization.html"><i class="bi bi-signpost-split me-2 text-accent"></i>Route Optimization</a></li>
+            <li><a class="dropdown-item text-eco" href="vehicle-tracking.html"><i class="bi bi-truck me-2 text-accent"></i>Vehicle Tracking</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="complaints.html"><i class="bi bi-chat-dots me-1"></i>Complaints</a></li>
+        <li class="nav-item"><a class="nav-link" href="reports.html"><i class="bi bi-bar-chart-line me-1"></i>Reports</a></li>
+        <li class="nav-item ms-lg-2">
+          <a class="btn btn-eco" href="contact.html" id="navContactBtn">
+            <i class="bi bi-envelope me-1"></i>Contact Us
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO SECTION
+════════════════════════════════════════════════════════ -->
+<section class="hero-section" id="heroSection" aria-label="Hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <!-- Left Column -->
+      <div class="col-lg-6">
+        <div class="hero-eyebrow">
+          <span class="dot"></span> AI-Powered Smart City Solution
+        </div>
+        <h1 class="hero-title">
+          Revolutionising<br>
+          <span class="gradient-text">Waste Management</span><br>
+          for Smart Cities
+        </h1>
+        <p class="hero-subtitle">
+          Real-time IoT monitoring, AI-driven route optimisation, and intelligent fleet
+          tracking — all in one platform. Cleaner cities. Greener future. Smarter decisions.
+        </p>
+        <div class="hero-actions">
+          <a href="dashboard.html" class="btn btn-eco btn-lg" id="heroDashboardBtn">
+            <i class="bi bi-speedometer2 me-2"></i>View Dashboard
+          </a>
+          <a href="about.html" class="btn btn-eco-outline btn-lg" id="heroLearnBtn">
+            Learn More <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat-item">
+            <span class="stat-number">1,250+</span>
+            <span class="stat-label">Smart Bins</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="stat-number">48</span>
+            <span class="stat-label">Vehicles</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="stat-number">97%</span>
+            <span class="stat-label">Efficiency Rate</span>
+          </div>
+          <div class="hero-stat-item">
+            <span class="stat-number">6 Zones</span>
+            <span class="stat-label">Coverage Area</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column — Visual -->
+      <div class="col-lg-6">
+        <div class="hero-visual">
+          <div class="hero-globe">
+            <div class="globe-inner">
+              <div class="globe-core">♻️</div>
+            </div>
+          </div>
+          <!-- Orbit Cards -->
+          <div class="orbit-card card-bins">
+            <div class="orbit-icon" style="background:rgba(74,222,128,0.15);">🗑️</div>
+            <div>
+              <div style="color:var(--accent);font-weight:700;">1,247 Bins</div>
+              <div style="font-size:0.7rem;color:var(--text-muted);">Online & Monitored</div>
+            </div>
+          </div>
+          <div class="orbit-card card-route">
+            <div class="orbit-icon" style="background:rgba(20,184,166,0.15);">🛣️</div>
+            <div>
+              <div style="color:var(--secondary-light);font-weight:700;">Route Optimal</div>
+              <div style="font-size:0.7rem;color:var(--text-muted);">32% fuel saved</div>
+            </div>
+          </div>
+          <div class="orbit-card card-alert">
+            <div class="orbit-icon" style="background:rgba(245,158,11,0.15);">🚛</div>
+            <div>
+              <div style="color:#fcd34d;font-weight:700;">48 Vehicles</div>
+              <div style="font-size:0.7rem;color:var(--text-muted);">Live Tracked</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     FEATURES SECTION
+════════════════════════════════════════════════════════ -->
+<section class="features-section" id="featuresSection" aria-label="Features">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="stat-badge mb-3"><i class="bi bi-stars me-1"></i>Core Features</span>
+      <h2 class="section-heading mx-auto" style="display:block;margin-bottom:1.5rem !important;">
+        Everything You Need to Manage Waste Smarter
+      </h2>
+      <p class="text-eco mx-auto" style="max-width:540px;font-size:0.95rem;">
+        Our integrated platform brings together IoT hardware, intelligent software, and
+        actionable analytics to streamline your city's waste operations.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Feature 1 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="eco-card h-100" id="featureSmartBins">
+          <div class="feature-icon-wrapper">🗑️</div>
+          <div class="feature-title">IoT Smart Bins</div>
+          <p class="feature-desc">
+            Sensor-equipped bins monitor fill levels, temperature, and status in real time.
+            Automated alerts when bins reach capacity thresholds.
+          </p>
+          <a href="smart-bins.html" class="btn btn-eco-outline btn-sm mt-3">
+            Explore <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Feature 2 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="eco-card h-100" id="featureRoute">
+          <div class="feature-icon-wrapper">🗺️</div>
+          <div class="feature-title">AI Route Optimisation</div>
+          <p class="feature-desc">
+            Machine learning algorithms generate the most efficient collection routes daily,
+            reducing fuel consumption by up to 32% and cutting emissions significantly.
+          </p>
+          <a href="route-optimization.html" class="btn btn-eco-outline btn-sm mt-3">
+            Explore <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Feature 3 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="eco-card h-100" id="featureVehicle">
+          <div class="feature-icon-wrapper">🚛</div>
+          <div class="feature-title">Live Vehicle Tracking</div>
+          <p class="feature-desc">
+            GPS-enabled fleet management with live maps, driver performance scores,
+            maintenance scheduling, and fuel consumption analytics.
+          </p>
+          <a href="vehicle-tracking.html" class="btn btn-eco-outline btn-sm mt-3">
+            Explore <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Feature 4 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="eco-card h-100" id="featureDashboard">
+          <div class="feature-icon-wrapper">📊</div>
+          <div class="feature-title">Analytics Dashboard</div>
+          <p class="feature-desc">
+            Comprehensive KPI dashboards with interactive charts, trend analysis,
+            and custom date-range reporting for data-driven decision making.
+          </p>
+          <a href="dashboard.html" class="btn btn-eco-outline btn-sm mt-3">
+            Explore <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Feature 5 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="eco-card h-100" id="featureComplaints">
+          <div class="feature-icon-wrapper">📝</div>
+          <div class="feature-title">Citizen Complaints Portal</div>
+          <p class="feature-desc">
+            Residents can report issues directly. Automated ticket routing, status tracking,
+            and resolution notifications keep citizens informed and engaged.
+          </p>
+          <a href="complaints.html" class="btn btn-eco-outline btn-sm mt-3">
+            Explore <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+      <!-- Feature 6 -->
+      <div class="col-md-6 col-lg-4">
+        <div class="eco-card h-100" id="featureReports">
+          <div class="feature-icon-wrapper">📈</div>
+          <div class="feature-title">Smart Reports</div>
+          <p class="feature-desc">
+            Generate, schedule, and export detailed reports on collection efficiency,
+            environmental impact, cost savings, and operational performance.
+          </p>
+          <a href="reports.html" class="btn btn-eco-outline btn-sm mt-3">
+            Explore <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     HOW IT WORKS
+════════════════════════════════════════════════════════ -->
+<section class="how-section" id="howItWorks" aria-label="How it works">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="stat-badge mb-3"><i class="bi bi-diagram-3 me-1"></i>How It Works</span>
+      <h2 style="font-size:clamp(1.6rem,3.5vw,2.4rem);">Three Steps to a Cleaner City</h2>
+    </div>
+    <div class="row g-4 text-center">
+      <div class="col-md-4">
+        <div class="eco-card h-100 p-4" id="step1">
+          <div class="step-number">1</div>
+          <h5 style="color:var(--text-primary);margin-bottom:0.75rem;">Sensors Detect</h5>
+          <p class="feature-desc">
+            IoT sensors embedded in every bin continuously measure fill levels,
+            battery status, and environmental conditions, sending data every 15 minutes.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="eco-card h-100 p-4" id="step2">
+          <div class="step-number">2</div>
+          <h5 style="color:var(--text-primary);margin-bottom:0.75rem;">AI Optimises</h5>
+          <p class="feature-desc">
+            Our AI engine processes sensor data, weather, traffic, and historical patterns
+            to build the most efficient daily collection routes automatically.
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="eco-card h-100 p-4" id="step3">
+          <div class="step-number">3</div>
+          <h5 style="color:var(--text-primary);margin-bottom:0.75rem;">Teams Execute</h5>
+          <p class="feature-desc">
+            Drivers receive optimised routes on their devices. Operations managers track
+            progress in real time. Reports are auto-generated after each collection cycle.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     STATS BAND
+════════════════════════════════════════════════════════ -->
+<section class="py-5" id="statsBand" aria-label="System statistics"
+         style="background:linear-gradient(135deg,var(--bg-card2),var(--bg-card));border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <div class="col-6 col-md-3">
+        <div class="eco-card p-3" id="stat1">
+          <div style="font-size:2.2rem;font-weight:800;color:var(--accent);font-family:'Poppins',sans-serif;">1,250</div>
+          <div class="text-eco-muted" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Smart Bins</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="eco-card p-3" id="stat2">
+          <div style="font-size:2.2rem;font-weight:800;color:var(--secondary-light);font-family:'Poppins',sans-serif;">48</div>
+          <div class="text-eco-muted" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Vehicles</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="eco-card p-3" id="stat3">
+          <div style="font-size:2.2rem;font-weight:800;color:#fcd34d;font-family:'Poppins',sans-serif;">32%</div>
+          <div class="text-eco-muted" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Fuel Saved</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="eco-card p-3" id="stat4">
+          <div style="font-size:2.2rem;font-weight:800;color:#f87171;font-family:'Poppins',sans-serif;">97%</div>
+          <div class="text-eco-muted" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Efficiency Rate</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     CTA
+════════════════════════════════════════════════════════ -->
+<section class="cta-section" id="ctaSection" aria-label="Call to action">
+  <div class="container">
+    <span class="stat-badge mb-4"><i class="bi bi-rocket-takeoff me-1"></i>Get Started Today</span>
+    <h2 class="mb-3">
+      Ready to Build a <span style="color:var(--accent);">Cleaner City?</span>
+    </h2>
+    <p class="text-eco mx-auto mb-4" style="max-width:500px;font-size:0.95rem;">
+      Join hundreds of municipalities already using SmartWaste to reduce costs,
+      cut emissions, and improve citizen satisfaction.
+    </p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="dashboard.html" class="btn btn-eco btn-lg" id="ctaDashBtn">
+        <i class="bi bi-speedometer2 me-2"></i>Open Dashboard
+      </a>
+      <a href="contact.html" class="btn btn-eco-outline btn-lg" id="ctaContactBtn">
+        <i class="bi bi-envelope me-2"></i>Contact Us
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+<footer aria-label="Site footer">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Brand -->
+      <div class="col-lg-4">
+        <div class="footer-brand mb-2">Smart<span>Waste</span> System</div>
+        <p class="text-eco-muted" style="font-size:0.875rem;line-height:1.75;margin-bottom:1rem;">
+          AI-powered waste collection management for smarter, greener, and more sustainable cities.
+          Built with ♻️ for a better tomorrow.
+        </p>
+        <div class="footer-social">
+          <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+
+      <!-- Pages -->
+      <div class="col-lg-2 col-sm-6">
+        <div class="footer-heading">Pages</div>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Home</a></li>
+          <li><a href="about.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>About</a></li>
+          <li><a href="dashboard.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Dashboard</a></li>
+          <li><a href="complaints.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Complaints</a></li>
+          <li><a href="reports.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Reports</a></li>
+          <li><a href="contact.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- System -->
+      <div class="col-lg-2 col-sm-6">
+        <div class="footer-heading">System</div>
+        <ul class="footer-links">
+          <li><a href="smart-bins.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Smart Bins</a></li>
+          <li><a href="route-optimization.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Route Optimisation</a></li>
+          <li><a href="vehicle-tracking.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Vehicle Tracking</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="col-lg-4">
+        <div class="footer-heading">Contact Info</div>
+        <ul class="footer-links">
+          <li><a href="mailto:info@smartwaste.city"><i class="bi bi-envelope me-2 text-accent"></i>info@smartwaste.city</a></li>
+          <li><a href="tel:+911800123456"><i class="bi bi-telephone me-2 text-accent"></i>+91 1800-123-456</a></li>
+          <li><a href="#"><i class="bi bi-geo-alt me-2 text-accent"></i>Smart City HQ, Tech Park, India</a></li>
+          <li class="mt-2">
+            <span class="status-dot online me-2"></span>
+            <span style="font-size:0.82rem;color:var(--text-muted);">All Systems Operational</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <span>© <span class="footer-year"></span> SmartWaste System. All rights reserved.</span>
+      <span style="color:var(--accent);">♻ Built for a Greener Planet</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Global JS -->
+<script src="js/storage.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

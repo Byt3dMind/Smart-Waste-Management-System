@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — SmartWaste System</title>
+  <meta name="description" content="Real-time SmartWaste operations dashboard — KPIs, bin status, vehicle tracking summary, and analytics charts." />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .kpi-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--border-hover); }
+    .kpi-icon {
+      width: 52px; height: 52px;
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .kpi-value {
+      font-family: 'Poppins', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .kpi-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .chart-placeholder {
+      background: var(--bg-card2);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 500;
+      gap: 8px;
+    }
+    .bin-status-row td { vertical-align: middle; }
+    .fill-bar { height: 6px; border-radius: 99px; background: var(--bg-card2); overflow: hidden; }
+    .fill-bar-inner { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg" id="mainNav" aria-label="Main navigation">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="index.html">
+      <div class="brand-icon">♻️</div>
+      Smart<span>Waste</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarMain" aria-controls="navbarMain"
+            aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav ms-auto align-items-lg-center gap-1">
+        <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html"><i class="bi bi-info-circle me-1"></i>About</a></li>
+        <li class="nav-item"><a class="nav-link active" href="dashboard.html"><i class="bi bi-speedometer2 me-1"></i>Dashboard</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="systemDropdown" role="button"
+             data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-grid me-1"></i>System
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark border-eco" aria-labelledby="systemDropdown"
+              style="background:var(--bg-card);min-width:200px;">
+            <li><a class="dropdown-item text-eco" href="smart-bins.html"><i class="bi bi-trash3 me-2 text-accent"></i>Smart Bins</a></li>
+            <li><a class="dropdown-item text-eco" href="route-optimization.html"><i class="bi bi-signpost-split me-2 text-accent"></i>Route Optimization</a></li>
+            <li><a class="dropdown-item text-eco" href="vehicle-tracking.html"><i class="bi bi-truck me-2 text-accent"></i>Vehicle Tracking</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="complaints.html"><i class="bi bi-chat-dots me-1"></i>Complaints</a></li>
+        <li class="nav-item"><a class="nav-link" href="reports.html"><i class="bi bi-bar-chart-line me-1"></i>Reports</a></li>
+        <li class="nav-item ms-lg-2">
+          <a class="btn btn-eco" href="contact.html" id="navContactBtn">
+            <i class="bi bi-envelope me-1"></i>Contact Us
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero" aria-label="Page header">
+  <div class="container-fluid px-4 page-hero-content">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+    </nav>
+    <div class="d-flex justify-content-between align-items-end flex-wrap gap-3 mt-2">
+      <div>
+        <h1 class="mb-1">Operations Dashboard</h1>
+        <p class="text-eco mb-0">Real-time overview of the smart waste collection system.</p>
+      </div>
+      <div class="d-flex gap-2 align-items-center">
+        <span class="status-dot online"></span>
+        <span class="text-eco-muted" style="font-size:0.82rem;">Live · Updated just now</span>
+        <button class="btn btn-eco-outline btn-sm ms-2" id="refreshDashBtn">
+          <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main style="padding:2rem 0;">
+  <div class="container-fluid px-4">
+
+    <!-- KPI Cards -->
+    <div class="row g-3 mb-4" id="kpiRow">
+      <div class="col-6 col-md-3">
+        <div class="kpi-card" id="kpi1">
+          <div class="kpi-icon" style="background:rgba(74,222,128,0.12);">🗑️</div>
+          <div class="kpi-value" style="color:var(--accent);">1,247</div>
+          <div class="kpi-label">Total Smart Bins</div>
+          <div class="mt-2"><span class="stat-badge" style="font-size:0.72rem;"><i class="bi bi-arrow-up me-1"></i>+12 this week</span></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="kpi-card" id="kpi2">
+          <div class="kpi-icon" style="background:rgba(20,184,166,0.12);">🚛</div>
+          <div class="kpi-value" style="color:var(--secondary-light);">48</div>
+          <div class="kpi-label">Active Vehicles</div>
+          <div class="mt-2"><span class="stat-badge" style="font-size:0.72rem;border-color:rgba(20,184,166,0.3);color:var(--secondary-light);">42 on route</span></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="kpi-card" id="kpi3">
+          <div class="kpi-icon" style="background:rgba(245,158,11,0.12);">⚠️</div>
+          <div class="kpi-value" style="color:#fcd34d;">23</div>
+          <div class="kpi-label">Bins Near Full</div>
+          <div class="mt-2"><span class="stat-badge" style="font-size:0.72rem;border-color:rgba(245,158,11,0.3);color:#fcd34d;">Needs attention</span></div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="kpi-card" id="kpi4">
+          <div class="kpi-icon" style="background:rgba(239,68,68,0.12);">📋</div>
+          <div class="kpi-value" style="color:#f87171;">7</div>
+          <div class="kpi-label">Open Complaints</div>
+          <div class="mt-2"><span class="stat-badge" style="font-size:0.72rem;border-color:rgba(239,68,68,0.3);color:#f87171;"><i class="bi bi-clock me-1"></i>Pending review</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row g-3 mb-4">
+      <!-- Waste Collection Overview -->
+      <div class="col-lg-4">
+        <div class="eco-card h-100" id="collectionChart">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 style="color:var(--text-primary);font-weight:700;margin:0;">Waste Collection Overview</h6>
+            <span class="stat-badge" style="font-size:0.72rem;"><i class="bi bi-bar-chart me-1"></i>Chart.js</span>
+          </div>
+          <div class="chart-placeholder" style="height:200px;" id="collectionChartCanvas">
+            <i class="bi bi-bar-chart-line" style="font-size:2.5rem;color:var(--border-hover);"></i>
+            <span>Collection Overview</span>
+          </div>
+          <div class="mt-3 text-center text-eco-muted" style="font-size:0.8rem;" id="collectionVolTotal">
+            Total Volume: Calculating...
+          </div>
+        </div>
+      </div>
+
+      <!-- Full vs Empty Bins -->
+      <div class="col-lg-4">
+        <div class="eco-card h-100" id="binStatusChart">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 style="color:var(--text-primary);font-weight:700;margin:0;">Full vs Empty Bins</h6>
+            <span class="stat-badge" style="font-size:0.72rem;"><i class="bi bi-pie-chart me-1"></i>Chart.js</span>
+          </div>
+          <div class="chart-placeholder" style="height:200px;" id="binStatusChartCanvas">
+            <i class="bi bi-pie-chart" style="font-size:2.5rem;color:var(--border-hover);"></i>
+            <span>Bin Status Donut</span>
+          </div>
+          <div class="mt-3 d-flex flex-column gap-2" id="binStatusLegend">
+            <div class="d-flex justify-content-between align-items-center">
+              <span style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text-secondary);">
+                <span style="width:10px;height:10px;border-radius:50%;background:#22c55e;display:inline-block;"></span>Empty Bins
+              </span>
+              <span style="color:var(--accent);font-weight:700;font-size:0.85rem;" class="empty-val">0</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <span style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text-secondary);">
+                <span style="width:10px;height:10px;border-radius:50%;background:#ef4444;display:inline-block;"></span>Full Bins
+              </span>
+              <span style="color:#f87171;font-weight:700;font-size:0.85rem;" class="full-val">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complaint Analytics -->
+      <div class="col-lg-4">
+        <div class="eco-card h-100" id="complaintChart">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 style="color:var(--text-primary);font-weight:700;margin:0;">Complaint Analytics</h6>
+            <span class="stat-badge" style="font-size:0.72rem;"><i class="bi bi-chat-square-text me-1"></i>Chart.js</span>
+          </div>
+          <div class="chart-placeholder" style="height:200px;" id="complaintChartCanvas">
+            <i class="bi bi-chat-dots" style="font-size:2.5rem;color:var(--border-hover);"></i>
+            <span>Complaint Analytics</span>
+          </div>
+          <div class="mt-3 d-flex flex-column gap-2" id="complaintLegend">
+            <div class="d-flex justify-content-between align-items-center">
+              <span style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text-secondary);">
+                <span style="width:10px;height:10px;border-radius:50%;background:#ef4444;display:inline-block;"></span>Pending Complaints
+              </span>
+              <span style="color:#f87171;font-weight:700;font-size:0.85rem;" class="pending-val">0</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <span style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text-secondary);">
+                <span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block;"></span>In Progress
+              </span>
+              <span style="color:#fcd34d;font-weight:700;font-size:0.85rem;" class="progress-val">0</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <span style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:var(--text-secondary);">
+                <span style="width:10px;height:10px;border-radius:50%;background:#22c55e;display:inline-block;"></span>Resolved
+              </span>
+              <span style="color:var(--accent);font-weight:700;font-size:0.85rem;" class="resolved-val">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bin Table + Vehicle List -->
+    <div class="row g-3">
+      <div class="col-lg-8">
+        <div class="eco-card" id="binTable">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 style="color:var(--text-primary);font-weight:700;margin:0;">Bins Requiring Attention</h6>
+            <a href="smart-bins.html" class="btn btn-eco-outline btn-sm">View All <i class="bi bi-arrow-right ms-1"></i></a>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-borderless mb-0" id="attentionBinsTable">
+              <thead><tr>
+                <th>Bin ID</th><th>Location</th><th>Fill Level</th><th>Status</th><th>Last Update</th>
+              </tr></thead>
+              <tbody>
+                <tr class="bin-status-row">
+                  <td><span style="color:var(--accent);font-weight:600;">BIN-0041</span></td>
+                  <td class="text-eco">MG Road, Zone A</td>
+                  <td style="min-width:120px;">
+                    <div class="fill-bar"><div class="fill-bar-inner" style="width:92%;background:#ef4444;"></div></div>
+                    <small class="text-eco-muted">92%</small>
+                  </td>
+                  <td><span class="badge bg-danger">Full</span></td>
+                  <td class="text-eco-muted" style="font-size:0.82rem;">5 min ago</td>
+                </tr>
+                <tr class="bin-status-row">
+                  <td><span style="color:var(--accent);font-weight:600;">BIN-0112</span></td>
+                  <td class="text-eco">Park Street, Zone B</td>
+                  <td style="min-width:120px;">
+                    <div class="fill-bar"><div class="fill-bar-inner" style="width:85%;background:#f59e0b;"></div></div>
+                    <small class="text-eco-muted">85%</small>
+                  </td>
+                  <td><span class="badge bg-warning">Near Full</span></td>
+                  <td class="text-eco-muted" style="font-size:0.82rem;">12 min ago</td>
+                </tr>
+                <tr class="bin-status-row">
+                  <td><span style="color:var(--accent);font-weight:600;">BIN-0289</span></td>
+                  <td class="text-eco">Station Rd, Zone C</td>
+                  <td style="min-width:120px;">
+                    <div class="fill-bar"><div class="fill-bar-inner" style="width:78%;background:#f59e0b;"></div></div>
+                    <small class="text-eco-muted">78%</small>
+                  </td>
+                  <td><span class="badge bg-warning">Near Full</span></td>
+                  <td class="text-eco-muted" style="font-size:0.82rem;">18 min ago</td>
+                </tr>
+                <tr class="bin-status-row">
+                  <td><span style="color:var(--accent);font-weight:600;">BIN-0344</span></td>
+                  <td class="text-eco">Gandhi Nagar, Zone D</td>
+                  <td style="min-width:120px;">
+                    <div class="fill-bar"><div class="fill-bar-inner" style="width:95%;background:#ef4444;"></div></div>
+                    <small class="text-eco-muted">95%</small>
+                  </td>
+                  <td><span class="badge bg-danger">Full</span></td>
+                  <td class="text-eco-muted" style="font-size:0.82rem;">2 min ago</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Vehicles -->
+      <div class="col-lg-4">
+        <div class="eco-card h-100" id="vehicleList">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 style="color:var(--text-primary);font-weight:700;margin:0;">Active Vehicles</h6>
+            <a href="vehicle-tracking.html" class="btn btn-eco-outline btn-sm">Track <i class="bi bi-arrow-right ms-1"></i></a>
+          </div>
+          <div class="d-flex flex-column gap-2" id="vehicleListItems">
+            <div class="d-flex align-items-center gap-3 p-2 rounded-eco" style="background:var(--bg-card2);">
+              <span style="font-size:1.4rem;">🚛</span>
+              <div class="flex-grow-1">
+                <div style="font-weight:600;font-size:0.88rem;color:var(--text-primary);">VH-001 · Crusher-A</div>
+                <div style="font-size:0.76rem;color:var(--text-muted);">Zone A — MG Road</div>
+              </div>
+              <span class="status-dot online"></span>
+            </div>
+            <div class="d-flex align-items-center gap-3 p-2 rounded-eco" style="background:var(--bg-card2);">
+              <span style="font-size:1.4rem;">🚛</span>
+              <div class="flex-grow-1">
+                <div style="font-weight:600;font-size:0.88rem;color:var(--text-primary);">VH-002 · Tipper-B</div>
+                <div style="font-size:0.76rem;color:var(--text-muted);">Zone B — Park Street</div>
+              </div>
+              <span class="status-dot online"></span>
+            </div>
+            <div class="d-flex align-items-center gap-3 p-2 rounded-eco" style="background:var(--bg-card2);">
+              <span style="font-size:1.4rem;">🚛</span>
+              <div class="flex-grow-1">
+                <div style="font-weight:600;font-size:0.88rem;color:var(--text-primary);">VH-007 · Mini-Van</div>
+                <div style="font-size:0.76rem;color:var(--text-muted);">Zone C — Station Rd</div>
+              </div>
+              <span class="status-dot warning"></span>
+            </div>
+            <div class="d-flex align-items-center gap-3 p-2 rounded-eco" style="background:var(--bg-card2);">
+              <span style="font-size:1.4rem;">🚛</span>
+              <div class="flex-grow-1">
+                <div style="font-weight:600;font-size:0.88rem;color:var(--text-primary);">VH-012 · Compactor</div>
+                <div style="font-size:0.76rem;color:var(--text-muted);">Zone D — Depot</div>
+              </div>
+              <span class="status-dot offline"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer aria-label="Site footer" style="margin-top:2rem;">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-brand mb-2">Smart<span>Waste</span> System</div>
+        <p class="text-eco-muted" style="font-size:0.875rem;line-height:1.75;margin-bottom:1rem;">
+          AI-powered waste collection management for smarter, greener, and more sustainable cities.
+        </p>
+        <div class="footer-social">
+          <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-2 col-sm-6">
+        <div class="footer-heading">Pages</div>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Home</a></li>
+          <li><a href="about.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>About</a></li>
+          <li><a href="dashboard.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Dashboard</a></li>
+          <li><a href="complaints.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Complaints</a></li>
+          <li><a href="reports.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Reports</a></li>
+          <li><a href="contact.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-2 col-sm-6">
+        <div class="footer-heading">System</div>
+        <ul class="footer-links">
+          <li><a href="smart-bins.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Smart Bins</a></li>
+          <li><a href="route-optimization.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Route Optimisation</a></li>
+          <li><a href="vehicle-tracking.html"><i class="bi bi-chevron-right me-1" style="font-size:0.7rem;"></i>Vehicle Tracking</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <div class="footer-heading">Contact Info</div>
+        <ul class="footer-links">
+          <li><a href="mailto:info@smartwaste.city"><i class="bi bi-envelope me-2 text-accent"></i>info@smartwaste.city</a></li>
+          <li><a href="tel:+911800123456"><i class="bi bi-telephone me-2 text-accent"></i>+91 1800-123-456</a></li>
+          <li><a href="#"><i class="bi bi-geo-alt me-2 text-accent"></i>Smart City HQ, Tech Park, India</a></li>
+          <li class="mt-2"><span class="status-dot online me-2"></span><span style="font-size:0.82rem;color:var(--text-muted);">All Systems Operational</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <span>© <span class="footer-year"></span> SmartWaste System. All rights reserved.</span>
+      <span style="color:var(--accent);">♻ Built for a Greener Planet</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/main.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
